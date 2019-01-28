@@ -11,7 +11,7 @@ bind-steam-library.ps1"
 $DateTime = (Get-Date -UFormat "%Y%m%d-%H%M")
 
 # Set working dir
-$ScriptDir = C:\terraform-parsec
+$ScriptDir = "C:\terraform-parsec"
 
 # Create our directory
 New-Item -ItemType directory -Path $ScriptDir
