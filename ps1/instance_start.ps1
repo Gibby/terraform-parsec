@@ -1,6 +1,6 @@
 # Custom vars
 $SourceRepo = "https://raw.githubusercontent.com/Gibby/terraform-parsec/master/ps1"
-$ScriptsToRun = @(initialise-ephemeral-disks.ps1", "bind-steam-library.ps1")
+$ScriptsToRun = @("initialise-ephemeral-disks.ps1", "bind-steam-library.ps1")
 
 # Get Current date/time
 $DateTime = (Get-Date -UFormat "%Y%m%d-%H%M")
@@ -21,5 +21,5 @@ Add-Content -Value "Starting custom scripts..." -Path $LogFile
 # Download and run scripts
 Foreach ($script in $ScriptsToRun)
 {
-  Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString("${SourceRepo}/${script}")))
+  Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString("${SourceRepo}/${script}"))
 }
