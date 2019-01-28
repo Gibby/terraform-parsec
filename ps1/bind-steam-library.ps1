@@ -5,5 +5,4 @@ if (Test-Path -Path D:\) {
 
   (Get-Content $LibraryFolders) -replace "}", "`"1`" `"D:\SteamLibrary`" }" | Out-File $LibraryFolders
 
-  return "ok"
 }
