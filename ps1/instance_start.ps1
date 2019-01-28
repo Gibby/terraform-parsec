@@ -17,8 +17,24 @@ $ScriptDir = C:\terraform-parsec
 New-Item -ItemType directory -Path $ScriptDir
 
 # Create logfile and send to System logs
-Start-BitsTransfer -Source "$SourceRepo\initialise-ec2-console-logs.ps1" -Destination $ScriptDir\initialise-ec2-console-logs.ps1
-Start-Job -FilePath "$ScriptDir\initialise-ec2-console-logs.ps1"
+Start-Job {$out = @'
+{
+  "events": [
+    {
+      "logName": "System",
+      "source": "",
+      "level": "Information",
+      "numEntries": 3
+    }
+  ]
+}
+'@ | Out-File 'C:\ProgramData\Amazon\EC2-Windows\Launch\Config\EventLogConfig.json'
+
+C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\SendEventLogs.ps1 -Schedule
+
+$LogFile = $ScriptDir\logs.$DateTime.txt
+Add-Content -Value "Starting custom scripts..." -Path $LogFile
+Get-Content -Path $LogFile -Wait | Write-EventLog System -source System -eventid 12345 -message $_}
 Start-Sleep -s 15
 
 # Download and run scripts
