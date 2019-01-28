@@ -1,0 +1,5 @@
+<powershell>
+Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Gibby/terraform-parsec/master/ps1/instance_start.ps1'))
+<powershell>
+network_server_start_port=8000:app_host=1:server_key=112d0c31e8457b3fa8216ece8ccd72105edc3039ac4b9631332bf3c5805694b4:app_check_user_data=1:encoder_bitrate=50:app_first_run=0
+<persist>true</persist>

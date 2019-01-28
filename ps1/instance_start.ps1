@@ -21,5 +21,5 @@ Add-Content -Value "Starting custom scripts..." -Path $LogFile
 # Download and run scripts
 Foreach ($script in $ScriptsToRun)
 {
-  Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString("${SourceRepo}/${script}"))
+  Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString("${SourceRepo}/${script}")))
 }
