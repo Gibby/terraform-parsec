@@ -1,22 +1,29 @@
+# Allow running scripts from the web...
+Set-ExecutionPolicy Bypass -Scope Process -Force
+
+# Custom vars
+$SourceRepo = "https://raw.githubusercontent.com/Gibby/terraform-parsec/master/ps1"
+$ScriptsToRun = "enable-rdp.ps1
+initialise-ephemeral-disks.ps1
+bind-steam-library.ps1"
+
 # Get Current date/time
 $DateTime = (Get-Date -UFormat "%Y%m%d-%H%M")
 
 # Set working dir
 $ScriptDir = C:\terraform-parsec
 
-# Create directory for logging
+# Create our directory
 New-Item -ItemType directory -Path $ScriptDir
 
-# Create logfile
-$LogFile = $ScriptDir\logs.$DateTime.txt
+# Create logfile and send to System logs
+Start-BitsTransfer -Source "$SourceRepo\initialise-ec2-console-logs.ps1" -Destination $ScriptDir\initialise-ec2-console-logs.ps1
+Start-Job -FilePath "$ScriptDir\initialise-ec2-console-logs.ps1"
+Start-Sleep -s 15
 
-# List of scripts to run
-$SourceRepo = "https://raw.githubusercontent.com/Gibby/terraform-parsec/master/ps1"
-$ScriptsToRun = "Initialise-Ephemeral-Disks.ps1
-Bind-Steam-Library.ps1"
-
-# Run scscripts from ScriptScriptsToRun
+# Download and run scripts
 Foreach ($script in $ScriptsToRun)
 {
-Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString("$SourceRepo\$script")) *> $LogFile
+  Start-BitsTransfer -Source "$SourceRepo\$script" -Destination $ScriptDir\$script
+  Invoke-Expression -Command "$ScriptDir\$script" *>> $LogFile
 }
