@@ -22,7 +22,7 @@ Add-Content -Value "Starting custom scripts..." -Path $LogFile
 if (Test-Path "${ScriptDir}/${InitScript}") {
   Remove-Item "${ScriptDir}/${InitScript}"
 }
-Invoke-WebRequest -Uri "${SourceRepo}/${InitScript}" -OutFile "${ScriptDir}/${InitScript}" *>> $LogFile
+Invoke-WebRequest -Uri "${SourceRepo}/${InitScript}" -OutFile "${ScriptDir}/${InitScript}"
 
 # Download and run scripts
 Foreach ($script in $ScriptsToRun)
@@ -32,6 +32,6 @@ Foreach ($script in $ScriptsToRun)
   if (Test-Path $DstFile) {
     Remove-Item $DstFile *>> $LogFile
   }
-  Invoke-WebRequest -Uri "${SrcFile}" -OutFile "${DstFile}" *>> $LogFile
+  Invoke-WebRequest -Uri "${SrcFile}" -OutFile "${DstFile}"
   & "${DstFile}" *>> $LogFile
 }
