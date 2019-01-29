@@ -19,11 +19,19 @@ $LogFile = "${ScriptDir}\logs.${DateTime}.txt"
 Add-Content -Value "Starting custom scripts..." -Path $LogFile
 
 # Pull the init script down if needed again
+if (Test-Path "${ScriptDir}/${InitScript}") {
+  Remove-Item "${ScriptDir}/${InitScript}"
+}
 Invoke-WebRequest -Uri "${SourceRepo}/${InitScript}" -OutFile "${ScriptDir}/${InitScript}" *>> $LogFile
 
 # Download and run scripts
 Foreach ($script in $ScriptsToRun)
 {
-  Invoke-WebRequest -Uri "${SourceRepo}/${script}" -OutFile "${ScriptDir}/${script}" *>> $LogFile
-  & "${ScriptDir}/${script}" *> $LogFile
+  $SrcFile = "${SourceRepo}/${script}"
+  $DstFile = "${ScriptDir}/${script}"
+  if (Test-Path $DstFile) {
+    Remove-Item $DstFile *>> $LogFile
+  }
+  Invoke-WebRequest -Uri "${SrcFile}" -OutFile "${DstFile}" *>> $LogFile
+  & "${DstFile}" *>> $LogFile
 }
