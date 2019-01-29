@@ -33,5 +33,5 @@ Foreach ($script in $ScriptsToRun)
     Remove-Item $DstFile *>> $LogFile
   }
   Invoke-WebRequest -Uri "${SrcFile}" -OutFile "${DstFile}"
-  & "${DstFile}" *>> $LogFile
+  & "${DstFile}" 2>&1 >> $LogFile
 }
