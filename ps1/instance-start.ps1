@@ -35,5 +35,5 @@ Foreach ($script in $ScriptsToRun)
     Remove-Item $DstFile
   }
   Invoke-WebRequest -Uri "${SrcFile}" -OutFile "${DstFile}"
-  & "${DstFile}" | Tee-Object -FilePath "$LogFile" -Append
+  Invoke-Expression -Command "${DstFile}" | Out-File -FilePath "$LogFile" -Append
 }
