@@ -1,6 +1,6 @@
 # Custom vars
 $SourceRepo = "https://raw.githubusercontent.com/Gibby/terraform-parsec/master/ps1"
-$InitScript = "instance_start.ps1"
+$InitScript = "instance-start.ps1"
 $ScriptsToRun = @("initialise-disks.ps1", "bind-steam-library.ps1", "extra-apps.ps1")
 
 # Get Current date/time
