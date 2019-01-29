@@ -9,29 +9,37 @@ $DateTime = (Get-Date -UFormat "%Y%m%d-%H%M")
 # Set working dir
 $ScriptDir = "C:\terraform-parsec"
 
-# Create our directory
-if (-not (Test-Path -Path $ScriptDir)) {
-  New-Item -ItemType directory -Path $ScriptDir
-}
-
-# Logs
-$LogFile = "${ScriptDir}\logs.${DateTime}.txt"
-Add-Content -Value "Starting custom scripts..." -Path $LogFile
-
-# Pull the init script down if needed again
-if (Test-Path "${ScriptDir}/${InitScript}") {
-  Remove-Item "${ScriptDir}/${InitScript}"
-}
-Invoke-WebRequest -Uri "${SourceRepo}/${InitScript}" -OutFile "${ScriptDir}/${InitScript}"
-
-# Download and run scripts
-Foreach ($script in $ScriptsToRun)
-{
-  $SrcFile = "${SourceRepo}/${script}"
-  $DstFile = "${ScriptDir}/${script}"
-  if (Test-Path $DstFile) {
-    Remove-Item $DstFile *>> $LogFile
+function do_setup {
+  # Create our directory
+  if (-not (Test-Path -Path $ScriptDir)) {
+    New-Item -ItemType directory -Path $ScriptDir
   }
-  Invoke-WebRequest -Uri "${SrcFile}" -OutFile "${DstFile}"
-  & "${DstFile}" 2>&1 >> $LogFile
+
+  # Logs
+  $LogFile = "${ScriptDir}\logs.${DateTime}.txt"
+  Add-Content -Value "Starting custom scripts..." -Path $LogFile
 }
+
+function run_scripts {
+  # Pull the init script down if needed again
+  if (Test-Path "${ScriptDir}/${InitScript}") {
+    Remove-Item "${ScriptDir}/${InitScript}"
+  }
+  Invoke-WebRequest -Uri "${SourceRepo}/${InitScript}" -OutFile "${ScriptDir}/${InitScript}"
+
+  # Download and run scripts
+  Foreach ($script in $ScriptsToRun)
+  {
+    $SrcFile = "${SourceRepo}/${script}"
+    $DstFile = "${ScriptDir}/${script}"
+    if (Test-Path $DstFile) {
+      Remove-Item $DstFile
+    }
+    Invoke-WebRequest -Uri "${SrcFile}" -OutFile "${DstFile}"
+    & "${DstFile}"
+  }
+}
+
+do_setup
+
+run_scripts | Tee-Object -FilePath "$LogFile" -Append 
