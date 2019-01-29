@@ -17,8 +17,6 @@ if (-not (Test-Path -Path $ScriptDir)) {
 
 # Logs
 $LogFile = "${ScriptDir}\logs.${DateTime}.txt"
-Add-Content -Value "Starting custom scripts..." -Path $LogFile
-
 
 # Pull the init script down if needed again
 if (Test-Path "${ScriptDir}/${InitScript}") {
@@ -35,5 +33,5 @@ Foreach ($script in $ScriptsToRun)
     Remove-Item $DstFile
   }
   Invoke-WebRequest -Uri "${SrcFile}" -OutFile "${DstFile}"
-  Invoke-Expression -Command "${DstFile}" | Out-File -FilePath "$LogFile" -Append
+  Invoke-Expression -Command "${DstFile}" *>> ""$LogFile"
 }
