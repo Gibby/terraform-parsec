@@ -33,5 +33,5 @@ Foreach ($script in $ScriptsToRun)
     Remove-Item $DstFile
   }
   Invoke-WebRequest -Uri "${SrcFile}" -OutFile "${DstFile}"
-  Invoke-Expression -Command "${DstFile}" *>> ""$LogFile"
+  Invoke-Expression -Command "${DstFile}" *>> "$LogFile"
 }
