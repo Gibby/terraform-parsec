@@ -1,4 +1,5 @@
 # Custom vars
+C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\InitializeInstance.ps1 -Schedule
 $SourceRepo = "https://raw.githubusercontent.com/Gibby/terraform-parsec/master/ps1"
 $InitScript = "instance-start.ps1"
 $ScriptsToRun = @("ec2-console-logging.ps1", "win16-fix-meta-data.ps1", "set-hostname.ps1", "initialise-disks.ps1", "bind-steam-library.ps1", "extra-apps.ps1", "create-shutdown-file.ps1", "disable-windows-firewall.ps1")
