@@ -1,7 +1,7 @@
 if (Test-Path -Path D:\) {
   $LibraryFolders = "C:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf"
 
-  if (-not (D:\SteamLibrary)) {
+  if (-not (Test-Path -Path D:\SteamLibrary)) {
     New-Item -ItemType directory -Path "D:\SteamLibrary" -Force
   }
 
